@@ -2,9 +2,12 @@ body{
     text-align: center'
 }
 
-button{
+canvas{
     display: block;
-    font-size: inherit;
+    font-size: 280px;
+    height: 210px;
     margin: auto;
-    padding: 0.6em;
+    padding: 0;
+    border: none;
+    background-color: black;
 }

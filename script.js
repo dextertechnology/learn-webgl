@@ -1,17 +1,23 @@
-window.addEventListener("load", function() {
-    var paragraph = this.document.querySelector("p"),
-    button = document.querySelector("button");
+window.addEventListener("load", function setupWebGL (evt) {
+    "use strict"
 
-    button.addEventListener("click", detectWebGLContext, false);
-    function detectWebGLContext () {
-        var canvas = document.createElement("canvas");
+    window.removeEventListener(evt.type, setupWebGL, false);
 
-        var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+    var paragraph = document.querySelector("p"),
+    canvas = document.querySelector("canvas");
 
-        if (gl && gl instanceof WebGLRenderingContext) {
-            paragraph.innerHTML = "Congratulation! Everython looks good.";
-        } else {
-            paragraph.innerHTML = "Failes to get WebGL context";
-        }
+    var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+
+    if (!gl) {
+        paragraph.innerHTML = "Failed to get WebGL context. " + "Your browser or device may not support WebGL.";
+        return;
     }
+
+    paragraph.innerHTML = "Congratulation! Your browser supports WebGL. ";
+
+    gl.viewport(0, 0,
+    gl.drawingBufferWidth, gl.drawingBufferHeight);
+    gl.clearColor(0.0, 0.8, 0.7, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    
 }, false);
