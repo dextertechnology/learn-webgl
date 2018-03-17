@@ -3,21 +3,34 @@ window.addEventListener("load", function setupWebGL (evt) {
 
     window.removeEventListener(evt.type, setupWebGL, false);
 
-    var paragraph = document.querySelector("p"),
-    canvas = document.querySelector("canvas");
+    var canvas = document.querySelector("#canvas-view");
+    var button = document.querySelector("#color-switcher");
+    canvas.addEventListener("click", switchColor, false);
+    button.addEventListener("click", switchColor, false);
 
-    var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+    var gl;
 
-    if (!gl) {
-        paragraph.innerHTML = "Failed to get WebGL context. " + "Your browser or device may not support WebGL.";
-        return;
+    function switchColor () {
+        if (!gl) {
+            gl = canvas.getContext("webgl")
+            || canvas.getContext("experimental-webgl");
+            if (!gl){
+                alert("Failed to get WebGL context.\n"
+            +"Your browser or device may not support WebGL.");
+            return;
+            }
+            gl.viewport(0,0,
+                gl.drawingBufferWidth, gl.drawingBufferHeight);
+        }
+
+        var color = getRandomColor();
+        gl.clearColor(color[0], color[1], color[2], 1.0);
+
+        gl.clear(gl.COLOR_BUFFER_BIT);
     }
 
-    paragraph.innerHTML = "Congratulation! Your browser supports WebGL. ";
-
-    gl.viewport(0, 0,
-    gl.drawingBufferWidth, gl.drawingBufferHeight);
-    gl.clearColor(0.0, 0.8, 0.7, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    function getRandomColor() {
+        return [Math.random(), Math.random(), Math.random()];
+    }
     
 }, false);
